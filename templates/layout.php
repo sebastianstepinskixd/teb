@@ -48,6 +48,10 @@ if (!empty($_GET['action'])) {
             <?php else : ?>
                 <h3>Lista notatek</h3>
             <?php endif; ?>
+
+            <?php 
+                require_once("./templates/pages/$page.php");
+            ?>
         </article>
     </main>
  
