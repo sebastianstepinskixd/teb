@@ -18,15 +18,22 @@ $params = [];
 if($action == 'create')
 {
 	$page = 'create';
-	$params['resultCreate'] = "Udało się dodać notatkę";
+	if(!empty($_POST))
+	{
+		$viewPrams = [
+			'title' => $_POST['title'],
+			'description' => $_POST['descprition']
+		];
+		$created = true;
+	}
+	$viewParams['created'] = $created;
 }
 else
 {
 	$page = 'list';
-	$params['resultList'] = "Wyświetlono listę notatek";
 }
 
 $view = new View();
-$view->render($page, $params);
+$view->render($page);
 
 ?>
