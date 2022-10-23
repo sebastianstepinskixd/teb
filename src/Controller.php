@@ -40,6 +40,9 @@ class Controller
                 $viewParams['resultList'] = 'Wyswietlamy listę';
             break;
         }
+
+        $view = new View();
+        $view->render($page);
     }
 }
 
