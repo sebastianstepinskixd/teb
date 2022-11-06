@@ -11,9 +11,29 @@ require_once('./src/Controller.php');
 include_once('./src/utils/debug.php');
 require_once('./config/config.php');
 
-Controller::initConfiguration($configuration);
 
-$c = new Controller();
-$c -> run();
+require_once('./Exception/AppException.php');
+require_once('./Exception/StorageException.php');
+require_once('./Exception/ConfigurationException.php');
+
+use App\Exception\AppException;
+use App\Exception\StorageException;
+use App\Exception\ConfigurationException;
+use Throwable;
+
+try{
+    Controller::initConfiguration($configuration);
+    $c = new Controller();
+    $c -> run();
+
+} catch (AppException $e)
+{
+    echo "<h1>Wystapił błąd w aplikacji</h1>";
+    echo '<h3>' . $e -> getMessage() . '</h3>';
+} catch (Throwable $e)
+{
+    echo "<h1>Wystapił błąd w aplikacji</h1>";
+}
+
 
 ?>
