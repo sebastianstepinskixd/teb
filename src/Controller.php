@@ -10,12 +10,13 @@ class Controller
 {   
     const DEFAULT_ACTION = 'list';
     private static $configuration = [];
+    private $database;
 
     public function __constuctor()
     {
         $this -> postData = $_POST;
         $this -> getData = $_GET;
-        $db = new Database(self::$configuration);
+        $this -> database = new Database(self::$configuration);
     }
 
     public static function initConfiguration($configuration)
@@ -39,6 +40,8 @@ class Controller
                         'description' => $this -> postData['descprition']
                     ];
                     $created = true;
+                    header('Location: /');
+                    $this -> database -> createNote($viewParams);
                 }
                 $viewParams['created'] = $created;
             break;

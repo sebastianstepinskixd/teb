@@ -11,10 +11,18 @@ use PDOException;
 use Throwable;
 class Database
 {
+    private $conn;
+
     public function __construct($config)
     {
-        $dsn = "mysql:dbname={$config['database']};host={$config['host']}";
-        $connection = new PDO($dsn);
+        try
+        {
+            $this -> validateConfig($config);
+            $this -> createConnection($config);
+        }catch(PDOException $e)
+        {
+            throw new StorageException("connection error");
+        }
     }
 
     private function validateConfig($config)
@@ -23,5 +31,33 @@ class Database
         {
             throw new ConfigurationException("Porblem z konfiguracją - skontaktuj się z administratorem.");
         }
+    }
+
+    private function createNote($data)
+    {
+        try
+        {
+            $title = $this -> conn->quote($data['title']);
+            $description = $this -> conn->quote($data['description']);
+            $created = date("Y-m-d H:i:s");
+            $query = "INSERT INTO notes(title,description,created) VALUES($title, $description, '$created')";
+            $result = $this -> conn -> exec($query);
+        }catch(Throwable $e)
+        {
+            throw new StorageException("Nie udalo sie utworzyc nowej notatki");
+        }
+    }
+
+    private function createConnection($config)
+    {
+        $dsn = "mysql:dbname={$config['database']};host={$config['host']}";
+        $this -> conn = new PDO(
+            $dsn,
+            $config['user'],
+            $config['password'],
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            ]
+        );
     }
 }
