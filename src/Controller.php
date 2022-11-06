@@ -11,11 +11,15 @@ class Controller
     const DEFAULT_ACTION = 'list';
     private static $configuration = [];
     private $database;
+    private $request;
+    private $view;
 
     public function __constuctor()
     {
-        $this -> postData = $_POST;
-        $this -> getData = $_GET;
+        $this -> request = [
+            'get' => $_GET,
+            'post' => $_POST
+        ];
         $this -> database = new Database(self::$configuration);
     }
 
@@ -26,22 +30,21 @@ class Controller
 
     public function run()
     {
-        $action = $this -> getData['action'] ?? self::DEFAULT_ACTION;
-
-        switch($action)
+        switch($this -> action)
         {
             case 'create':
                 $page = 'create';
                 $created = false;
-                if(!empty($this -> postData))
+                $data = $this -> getRequestPost();
+                if(!empty($data))
                 {
                     $viewPrams = [
-                        'title' => $this -> postData['title'],
-                        'description' => $this -> postData['descprition']
+                        'title' => $data['title'],
+                        'description' => $data['descprition']
                     ];
                     $created = true;
-                    header('Location: /');
                     $this -> database -> createNote($viewParams);
+                    header('Location: /');
                 }
                 $viewParams['created'] = $created;
             break;
@@ -53,6 +56,16 @@ class Controller
 
         $view = new View();
         $view->render($page);
+    }
+
+    private function getRequestPost()
+    {
+        return $this -> request['post'] ?? [];
+    }
+
+    private function getRequestGet()
+    {
+        return $this -> request['get'] ?? [];
     }
 }
 
