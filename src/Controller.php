@@ -48,12 +48,15 @@ class Controller
             default:
                 $page = 'list';
                 $data = $this -> getRequestGet();
-                $viewParams['before'] = $data['before'] ?? null;
+                $viewParams = [
+                    'notes' => $this -> database -> getNotes(),
+                    'before' => $data['before'] ?? null
+                ];
             break;
         }
 
         $view = new View();
-        $view->render($page);
+        $view->render($page, $viewParams ?? []);
     }
 
     private function getRequestPost()
