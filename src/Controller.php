@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App;
 
-require_once('./src/view.php');
+use App\Exception\NotFoundException;
+
+include_once('./src/view.php');
+require_once('./config/config.php');
+require_once('./src/Database.php');
 
 class Controller
 {   
@@ -43,14 +47,36 @@ class Controller
                     ];
                     $this -> database -> createNote($noteData);
                     header('Location: /?before=created');
+                    exit;
                 }
+            break;
+            case 'show':
+                $page = 'show';
+                $data = $this->getRequestGet();
+                $noteId = (int) $data['id'] ?? null;
+                if(!$noteId) {
+                    header('Location: /?error=missingNoteId');
+                    exit;
+                }
+                try {
+                    $note = $this -> database->getNote($noteId);
+                } catch (NotFoundException $e) {  
+                    header('Location: /?error=noteNotFound');
+                    exit;
+                }
+                $viewParams = [
+                    'title' => "Moja notatka",
+                    'description' => "Opis",
+                    "note" => $note
+                ];
             break;
             default:
                 $page = 'list';
                 $data = $this -> getRequestGet();
                 $viewParams = [
                     'notes' => $this -> database -> getNotes(),
-                    'before' => $data['before'] ?? null
+                    'before' => $data['before'] ?? null,
+                    'error' => $data['error'] ?? null
                 ];
             break;
         }
