@@ -34,23 +34,21 @@ class Controller
         {
             case 'create':
                 $page = 'create';
-                $created = false;
                 $data = $this -> getRequestPost();
                 if(!empty($data))
                 {
-                    $viewPrams = [
+                    $noteData = [
                         'title' => $data['title'],
                         'description' => $data['descprition']
                     ];
-                    $created = true;
-                    $this -> database -> createNote($viewParams);
-                    header('Location: /');
+                    $this -> database -> createNote($noteData);
+                    header('Location: /?before=created');
                 }
-                $viewParams['created'] = $created;
             break;
             default:
                 $page = 'list';
-                $viewParams['resultList'] = 'Wyswietlamy listę';
+                $data = $this -> getRequestGet();
+                $viewParams['before'] = $data['before'] ?? null;
             break;
         }
 
