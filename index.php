@@ -27,7 +27,7 @@ $request = new Request($_GET, $_POST);
 
 try{
     Controller::initConfiguration($configuration);
-    $c = new Controller();
+    $c = new Controller($request);
     $c -> run();
 
 } catch (AppException $e)
@@ -37,6 +37,7 @@ try{
 } catch (Throwable $e)
 {
     echo "<h1>Wystapił błąd w aplikacji</h1>";
+    echo '<h3>' . $e -> getMessage() . '</h3>';
 }
 
 

@@ -19,10 +19,11 @@ class Controller
     private $request;
     private $view;
 
-    public function __constuctor(Request $request)
+    public function __construct(Request $request)
     {
         $this -> request = $request;
         $this -> database = new Database(self::$configuration);
+        $this -> action = $this -> action();
     }
 
     public static function initConfiguration($configuration)

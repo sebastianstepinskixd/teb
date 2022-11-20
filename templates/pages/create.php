@@ -1,5 +1,3 @@
-<h3>Nowa notatka</h3>
-
 <div>
     <form action="/?action=create" class="note-form" method="post">
         <ul>
