@@ -6,7 +6,7 @@ namespace App;
 
 class View
 {
-    public function render(?string $page, $params = false): void
+    public function render(?string $page, $params = []): void
     {
         require_once('./templates/layout.php');
     }
