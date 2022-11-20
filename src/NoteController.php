@@ -10,11 +10,6 @@ require_once('./src/AbstractController.php');
 
 class NoteController extends AbstractController
 {   
-    public function __construct(Request $request)
-    {
-        parent::__construct($request);
-    }
-
     public function createAction()
     {
         if($this -> request -> hasPost())

@@ -41,7 +41,7 @@ class AbstractController
         $this -> $action();
     }
 
-    private function action()
+    protected function action()
     {
         return $this->request->getParam('action', self::DEFAULT_ACTION);
     }
