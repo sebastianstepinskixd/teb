@@ -6,6 +6,7 @@ namespace App;
 
 class Request
 {
+    const BASE_URL = 'http://localhost/teb/';
     private $get, $post = [];
 
     public function __construct($get, $post)

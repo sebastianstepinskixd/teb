@@ -43,6 +43,23 @@ class AbstractController
     {
         return $this->request->getParam('action', self::DEFAULT_ACTION);
     }
+
+    protected function redirect($location, $params)
+    {
+        $location = Request::BASE_URL . $location;
+        if(count($params))
+        {
+            $queryParams = [];
+            foreach($params as $key => $value)
+                $queryParams[] = urlencode($key) . '=' . urlencode($value);
+
+            $queryParams = implode('&', $queryParams);
+            $location .= "?" . $queryParams;
+        }
+
+        header("Location: $location");
+        exit;
+    }
 }
 
 ?>

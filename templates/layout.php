@@ -37,10 +37,10 @@ if (!empty($_GET['action'])) {
         <nav>
             <ul>
                 <li>
-                    <a href="/">Lista notatek</a>
+                    <a href="<?php echo $params['BASE_URL'] ?>">Lista notatek</a>
                 </li>
                 <li>
-                    <a href="/?action=create">Nowa notatka</a>
+                    <a href="<?php echo $params['BASE_URL'] ?>?action=create">Nowa notatka</a>
                 </li>
             </ul>
         </nav>

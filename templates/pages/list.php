@@ -45,7 +45,7 @@
                         <td><?php echo (int) $note['id'] ?></td>
                         <td><?php echo $note['title'] ?></td>
                         <td><?php echo $note['created'] ?></td>
-                        <td><a href="?action=show&id=<?php echo (int) $note['id'] ?>">Pokaż</a></td>
+                        <td><a href="<?php echo $params['BASE_URL'] ?>?action=show&id=<?php echo (int) $note['id'] ?>">Pokaż</a></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

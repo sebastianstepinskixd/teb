@@ -8,7 +8,7 @@ class View
 {
     public function render(?string $page, $params = []): void
     {
-        $params['test'] = '<b>Test</b>';
+        $params['BASE_URL'] = Request::BASE_URL;
         $params = $this -> escape($params);
         require_once('./templates/layout.php');
     }

@@ -34,7 +34,7 @@ class Database
         }
     }
 
-    private function createNote($data)
+    public function createNote($data)
     {
         try
         {
