@@ -91,6 +91,16 @@ class Database
         }
     }
 
+    public function deleteNote($id)
+    {
+        try {
+            $query = "DELETE FROM notes WHERE id=$id LIMIT 1";
+            $this -> conn -> exec($query);
+        }catch(Throwable $e) {
+            throw new StorageException("Nie udalo sie usunac notatki", 400, $e);
+        }
+    }
+
     private function createConnection($config)
     {
         $dsn = "mysql:dbname={$config['database']};host={$config['host']}";

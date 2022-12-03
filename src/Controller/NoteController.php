@@ -46,12 +46,29 @@ class NoteController extends AbstractController
                 'title' => $this -> request ->postParam('title'),
                 'description' => $this -> request ->postParam('description')
             ];
-            
+
             $this -> database -> editNote($noteId, $noteData);
 
             $this -> redirect('/', ['before' => 'edited']);
         }
 
+        $this -> view -> render('edit', ['note' => $this->getNote()]);
+    }
+
+    public function deleteAction()
+    {
+        if($this -> request -> isPost())
+        {
+            $id = (int) $this -> request -> postParam('id');
+            $this -> database -> deleteNote($id);
+            $this -> redirect('/', ['before' => 'deleted']);
+        }
+
+        $this -> view -> render('delete', ['note' => $this -> getNote()]);
+    }
+
+    public function getNote()
+    {
         $noteId = (int) $this -> request -> getParam('id');
         if(!$noteId)
             $this -> redirect('/', ['error' => 'missingNoteId']);
@@ -63,8 +80,7 @@ class NoteController extends AbstractController
             $this -> redirect('/', ['error' => 'noteNotFound']);
             exit;
         }
-
-        $this -> view -> render('edit', ['note' => $note]);
+        return $note;
     }
 
     public function listAction()
